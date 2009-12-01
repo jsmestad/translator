@@ -254,7 +254,7 @@ module ActionView #:nodoc:
     def translate_with_context(key, options={})
       # The outer scope will typically be the controller name ("blog_posts")
       # but can also be a dir of shared partials ("shared").
-      outer_scope = self.template.base_path
+      outer_scope = self.template.base_path.split('/')
     
       # The template will be the view being rendered ("show.erb" or "_ad.erb")
       inner_scope = self.template.name
@@ -265,7 +265,7 @@ module ActionView #:nodoc:
       # In the case of a missing translation, fall back to letting TranslationHelper
       # put in span tag for a translation_missing.
       begin
-        Translator.translate_with_scope([outer_scope, inner_scope], key, options.merge({:raise => true}))
+        Translator.translate_with_scope([outer_scope, inner_scope].flatten, key, options.merge({:raise => true}))
       rescue Translator::TranslatorError, I18n::MissingTranslationData => exc
         # Call the original translate method
         str = translate_without_context(key, options)
@@ -297,7 +297,7 @@ module ActionController #:nodoc:
     # is being invoked. Initial scoping will be [:controller_name :action_name] when looking up keys. Example would be
     # +['posts' 'show']+ for the +PostsController+ and +show+ action.
     def translate_with_context(key, options={})
-      Translator.translate_with_scope([self.controller_name, self.action_name], key, options)
+      Translator.translate_with_scope([self.controller_path.split('/'), self.action_name].flatten, key, options)
     end
   
     alias_method_chain :translate, :context
@@ -334,7 +334,7 @@ module ActionMailer #:nodoc:
     # is being invoked. Initial scoping of [:mailer_name :action_name] where mailer_name is like 'comment_mailer' 
     # and action_name is 'comment_notification' (note: no "deliver_" or "create_")
     def translate(key, options={})
-      Translator.translate_with_scope([self.mailer_name, self.action_name], key, options)
+      Translator.translate_with_scope([self.mailer_name.split('/'), self.action_name].flatten, key, options)
     end
 
     alias :t :translate

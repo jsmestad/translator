@@ -4,7 +4,7 @@ require 'rake/testtask'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "translator"
+    gemspec.name = "fdl_translator"
     gemspec.summary = "Rails extentions to simplify internationalization"
     gemspec.email = "mike@graysky.org"
     gemspec.homepage = "http://github.com/graysky/translator"
