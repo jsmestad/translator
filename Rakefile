@@ -9,8 +9,9 @@ begin
     gemspec.email = "mike@graysky.org"
     gemspec.homepage = "http://github.com/graysky/translator"
     gemspec.description = "Translator makes using Rails internationalization simpler"
-    gemspec.authors = ["Mike Champion"]
+    gemspec.authors = ["Mike Champion", "Justin Smestad"]
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
